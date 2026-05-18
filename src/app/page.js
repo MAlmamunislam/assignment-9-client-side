@@ -1,4 +1,6 @@
 import BannerSlider from "@/component/BanarSilde";
+import HomeFooter from "@/component/HomeFotter";
+
 import LimitedCard from "@/component/LimitedCard/LimitedCard";
 import { Button } from "@heroui/react";
 import { Flame, MoveRight } from "lucide-react";
@@ -22,6 +24,9 @@ export default function Home() {
       {/* card section  */}
       <div className="container mx-auto">
         <LimitedCard></LimitedCard>
+      </div>
+      <div>
+        <HomeFooter />
       </div>
     </div>
   );
