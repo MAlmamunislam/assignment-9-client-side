@@ -4,7 +4,7 @@ import { Users, ArrowRight } from 'lucide-react';
 const SecondSlide = () => {
   return (
     <div 
-      className="relative w-full max-w-6xl mx-auto min-h-[280px] rounded-2xl p-8 md:p-12 flex items-center overflow-hidden font-sans bg-cover bg-center bg-no-repeat"
+      className="relative w-full mt-5 mx-auto min-h-[280px] rounded-2xl p-8 md:p-12 flex items-center overflow-hidden font-sans bg-cover bg-center bg-no-repeat"
       style={{ 
         
         backgroundImage: `url('/image/second.png')`,
