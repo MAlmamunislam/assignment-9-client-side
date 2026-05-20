@@ -96,7 +96,7 @@ const FilterAndAllCard = () => {
 
                                     <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
                                         <Image
-                                            src={idea.imageURL || "/placeholder.jpg"}
+                                            src={idea.imageURL || "https://images.unsplash.com/photo-1521737604893-d14cc237f11d"}
                                             alt={idea.ideaTitle}
                                             fill
                                             sizes="(max-w-7xl) 33vw, 100vw"
@@ -125,7 +125,9 @@ const FilterAndAllCard = () => {
                                         <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
 
                                             <div className="flex items-center gap-3">
-                                                <img
+                                                <Image
+                                                    width={100}
+                                                    height={100}
                                                     src={idea.userImage || "https://i.ibb.co/6R7v6gX/anon-user.png"}
                                                     alt={idea.userName}
                                                     className="w-16 h-16 rounded-full object-cover ring-4 ring-purple-50"

@@ -5,10 +5,16 @@ import Image from 'next/image';
 import { Plus } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import CommentForm from '@/component/IdeaFile/CommentForm';
+import CommentItem from '@/component/IdeaFile/CommentForm';
+import IdeaDetailsPage from '@/component/FatchComment';
+import FatchComment from '@/component/FatchComment';
 
 const IdeaDetails = async ({ params }) => {
   const { id } = await params;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_DATA_URL}/allidea/${id}`);
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_FETCH_DATA_URL}/allidea/${id}`, {
+  cache: 'no-store' 
+});
   const data = await res.json();
 
   return (
@@ -130,35 +136,12 @@ const IdeaDetails = async ({ params }) => {
                 </h2>
 
                 {/* Input Box */}
-             <CommentForm></CommentForm>
+            <CommentForm ideaId={id}></CommentForm>
 
                 {/* Comments List */}
                 <div className="pt-2 space-y-4">
                   {/* Single Comment */}
-                  <div className="flex items-start justify-between bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                    <div className="flex items-start gap-3">
-                      {/* User Avatar */}
-                      <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
-                        <img
-                          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-                          alt="User"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      {/* User Info & Text */}
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-bold text-slate-900">AJ</h4>
-                        <p className="text-sm text-slate-600">Et dolore aut quia p</p>
-                        <span className="block text-xs text-slate-400">May 16, 2026</span>
-                      </div>
-                    </div>
-
-                    {/* Delete Button */}
-                    <button className="text-rose-500 hover:text-rose-600 font-semibold text-sm flex items-center transition-colors">
-
-                      <span className="hidden md:inline">Delete</span>
-                    </button>
-                  </div>
+                <FatchComment id={id} ></FatchComment>
                 </div>
               </div>
 
