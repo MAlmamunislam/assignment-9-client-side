@@ -70,7 +70,7 @@ const FilterAndAllCard = () => {
                                 <option value="Tech">Tech</option>
                                 <option value="Health">Health</option>
                                 <option value="Education">Education</option>
-                                <option value="AI">AI</option>
+                                <option value="Ai">AI</option>
                             </select>
                             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                         </div>

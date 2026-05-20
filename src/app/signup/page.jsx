@@ -4,10 +4,12 @@ import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
-import { redirect } from 'next/navigation';
-import {Icon} from "@iconify/react";
+import { redirect, useRouter } from 'next/navigation';
+import { Icon } from "@iconify/react";
+import toast from 'react-hot-toast';
 
 const page = () => {
+    const router = useRouter();
     const onsubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -20,10 +22,12 @@ const page = () => {
             image: result.image,
         });
         if (data) {
-            redirect('/')
+            toast.success("Signup successful!");
+            router.push("/");
         }
         if (error) {
-            alert(error.message);
+            toast.error(error.message);
+
         }
     };
 

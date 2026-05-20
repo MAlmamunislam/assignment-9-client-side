@@ -11,8 +11,11 @@ import {
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const LogInPage = () => {
+        const router = useRouter();
     const onsubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -24,7 +27,14 @@ const LogInPage = () => {
 
             callbackURL: "/",
         });
-        console.log(data, error);
+        
+         if (data) {
+            toast.success("Signup successful!");
+            router.push("/");
+        }
+        if (error) {
+            toast.error(error.message);
+        }
     };
     const handleGoogleSignup = async () => {
         try {
@@ -79,9 +89,7 @@ const LogInPage = () => {
                 >
                     <Label>Password</Label>
                     <Input placeholder="Enter your password" />
-                    <Description>
-                        Must be at least 8 characters with 1 uppercase and 1 number
-                    </Description>
+                    
                     <FieldError />
                 </TextField>
                 <div className="flex gap-2">

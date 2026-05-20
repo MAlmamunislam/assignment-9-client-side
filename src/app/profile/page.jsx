@@ -1,5 +1,6 @@
 "use client";
 
+import { UpdateProfileModal, WithForm } from "@/component/ProfileUpdateForm";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import React from "react";
@@ -8,6 +9,8 @@ const Profile = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
   
+  
+
 
 
   return (
@@ -38,9 +41,7 @@ const Profile = () => {
             </p>
           </div>
 
-          <button className="mt-8 w-full py-3 px-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg">
-            Update Profile
-          </button>
+         <UpdateProfileModal></UpdateProfileModal>
         </div>
       </div>
     </div>

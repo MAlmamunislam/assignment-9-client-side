@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
+import toast from 'react-hot-toast';
 
 
 export default function Navbar() {
@@ -17,28 +18,33 @@ export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
 
-  const navItems = [
-    { label: 'Home', icon: Home, href: '/' },
-    { label: 'Ideas', icon: Lightbulb, href: '/ideas' },
-    { label: 'Add Idea', icon: PlusCircle, href: '/add-idea' },
-    { label: 'My Ideas', icon: Lock, href: '/my-ideas' },
-    { label: 'My Interactions', icon: Users, href: '/interactions' },
-
-  ];
+ 
   const router = useRouter();
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user)
   const handleLogOut =  async() => {
     await authClient.signOut({
   fetchOptions: {
     onSuccess: () => {
-      router.push("/login"); // redirect to login page
+       toast.success("Log Out successfully!");
+      router.push("/login"); 
     },
   },
 });
   }
+  const navItems = [
+  { label: 'Home', icon: Home, href: '/' },
+  { label: 'Ideas', icon: Lightbulb, href: '/ideas' },
+];
+
+if (user) {
+  navItems.push(
+    { label: 'Add Idea', icon: PlusCircle, href: '/add-idea' },
+    { label: 'My Ideas', icon: Lock, href: '/my-ideas' },
+    { label: 'My Interactions', icon: Users, href: '/interactions' }
+  );
+}
 
   return (
     <nav className="relative flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 shadow-sm sm:px-6 lg:px-8 dark:bg-gray-900 dark:border-gray-800">
