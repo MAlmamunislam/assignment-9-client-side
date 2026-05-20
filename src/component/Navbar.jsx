@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useTheme } from "next-themes";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Home, Lightbulb, PlusCircle, Lock, Users,
   Sun, Moon, ChevronDown, Menu, X, User, LogOut
 } from 'lucide-react';
 import Link from 'next/link';
+import { authClient } from '@/lib/auth-client';
+
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -21,7 +23,22 @@ export default function Navbar() {
     { label: 'Add Idea', icon: PlusCircle, href: '/add-idea' },
     { label: 'My Ideas', icon: Lock, href: '/my-ideas' },
     { label: 'My Interactions', icon: Users, href: '/interactions' },
+
   ];
+  const router = useRouter();
+
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user)
+  const handleLogOut =  async() => {
+    await authClient.signOut({
+  fetchOptions: {
+    onSuccess: () => {
+      router.push("/login"); // redirect to login page
+    },
+  },
+});
+  }
 
   return (
     <nav className="relative flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 shadow-sm sm:px-6 lg:px-8 dark:bg-gray-900 dark:border-gray-800">
@@ -92,31 +109,58 @@ export default function Navbar() {
           <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full hidden sm:block"></div>
         </button>
 
-        <div className="relative">
-          <button
-            onClick={() => { setIsProfileOpen(!isProfileOpen); setIsMenuOpen(false); }}
-            className="flex items-center space-x-1 border-l pl-2 md:pl-3 border-gray-200 focus:outline-none"
-          >
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80" alt="Profile" className="w-8 h-8 rounded-full object-cover ring-2 ring-transparent hover:ring-purple-200 transition-all" />
-            <span className="text-sm font-semibold text-gray-700 hidden lg:inline dark:text-gray-300">John Doe</span>
-            <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
-          </button>
-
-          {isProfileOpen && (
-            <div className="absolute right-0 top-11 w-44 bg-white border border-gray-100 rounded-xl shadow-lg py-2 z-50">
-              <div className="px-4 py-1.5 border-b border-gray-50 lg:hidden">
-                <p className="text-xs font-bold text-gray-800">John Doe</p>
-              </div>
-              <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-purple-600 transition-colors">
-                <User className="w-4 h-4" /> <span>Profile</span>
-              </Link>
-              <hr className="border-gray-100 my-1" />
-              <button onClick={() => { setIsProfileOpen(false); alert('Logging out...'); }} className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
-                <LogOut className="w-4 h-4" /> <span>Logout</span>
+        {
+          user ? <>
+            <div className="relative">
+              <button
+                onClick={() => { setIsProfileOpen(!isProfileOpen); setIsMenuOpen(false); }}
+                className="flex items-center space-x-1 border-l pl-2 md:pl-3 border-gray-200 focus:outline-none"
+              >
+                <Image width={10} height={10}  src={user?.image || "https://i.pravatar.cc/150?img=12"} alt="Profile" className="w-8 h-8 rounded-full object-cover ring-2 ring-transparent hover:ring-purple-200 transition-all" />
+                <span className="text-sm font-semibold text-gray-700 hidden lg:inline dark:text-gray-300">{user?.name}</span>
+                <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
               </button>
+
+              {isProfileOpen && (
+                <div className="absolute right-0 top-11 w-44 bg-white border border-gray-100 rounded-xl shadow-lg py-2 z-50">
+                  <div className="px-4 py-1.5 border-b border-gray-50 lg:hidden">
+                    <p className="text-xs font-bold text-gray-800">{user?.name}</p>
+                  </div>
+                  <Link href="/profile" onClick={() => setIsProfileOpen(false)} className="flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-purple-600 transition-colors">
+                    <User className="w-4 h-4" /> <span>Profile</span>
+                  </Link>
+                  <hr className="border-gray-100 my-1" />
+                 <button
+  onClick={() => {
+    setIsProfileOpen(false);
+    handleLogOut();
+  }}
+  className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+>
+  <LogOut className="w-4 h-4" />
+  <span>Logout</span>
+</button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </> :
+            <>
+              <div  className="flex items-center gap-4 p-4 justify-center">
+                <Link href='login'>
+                <button className="px-6 py-2.5 bg-[#6366f1] hover:bg-[#4f46e5] text-white font-medium rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 tracking-wide active:scale-95">
+                  Login
+                </button>
+                </Link>
+
+                <Link href='signup'>
+
+                <button className="px-6 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-200 shadow-sm transition-all duration-200 tracking-wide active:scale-95">
+                  Register
+                </button>
+                </Link>
+              </div>
+            </>
+        }
       </div>
     </nav>
   );

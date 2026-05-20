@@ -4,6 +4,7 @@ import { Search, ChevronDown, Calendar, SlidersHorizontal, MessageSquare, Bookma
 import Image from 'next/image';
 
 import { FetchAllData } from '@/service/fatchedata';
+import Link from 'next/link';
 
 const FilterAndAllCard = () => {
     const [ideas, setIdeas] = useState([]);
@@ -92,6 +93,7 @@ const FilterAndAllCard = () => {
                         filteredIdeas.map((idea, index) => {
                             return (
                                 <div key={index} className="max-w-md bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 font-sans">
+
                                     <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
                                         <Image
                                             src={idea.imageURL || "/placeholder.jpg"}
@@ -104,6 +106,7 @@ const FilterAndAllCard = () => {
                                             {idea.category}
                                         </div>
                                     </div>
+
 
                                     <div className="p-6">
                                         <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
@@ -118,17 +121,24 @@ const FilterAndAllCard = () => {
                                             </span>
                                         </div>
 
-                                        <div className="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between">
-                                            <div className="flex items-center gap-4 text-gray-500 text-sm font-medium">
-                                                <div className="flex items-center gap-1.5 hover:text-gray-800 transition-colors cursor-pointer">
-                                                    <MessageSquare className="w-5 h-5 stroke-[1.75]" />
-                                                    <span>24</span>
-                                                </div>
+
+                                        <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={idea.userImage || "https://i.ibb.co/6R7v6gX/anon-user.png"}
+                                                    alt={idea.userName}
+                                                    className="w-16 h-16 rounded-full object-cover ring-4 ring-purple-50"
+                                                />
+                                                <span className="text-gray-800 text-sm font-bold max-w-[100px] leading-tight">
+                                                    {idea.userName || "Anonymous"}
+                                                </span>
                                             </div>
-                                            <button className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 transition-colors px-4 py-2 rounded-xl text-sm font-semibold">
-                                                <span>View Details</span>
+
+                                            <Link href={`/ideas/${idea._id}`} className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition-all px-4 py-3 rounded-xl text-xs font-bold tracking-wide">
+                                                <span className="text-center">View<br />Details</span>
                                                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-                                            </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
