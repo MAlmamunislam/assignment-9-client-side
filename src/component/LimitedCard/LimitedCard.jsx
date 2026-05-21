@@ -2,6 +2,7 @@
 
 import { FetchAllData } from '@/service/fatchedata';
 import Image from 'next/image'
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
 const LimitedCard = () => {
@@ -52,9 +53,9 @@ const LimitedCard = () => {
                                 <div className="flex items-center justify-between pt-3 pb-1 px-1 mt-2 border-t border-gray-50">
 
 
-                                    <button className="border border-[#7C3AED] text-[#7C3AED] w-full font-semibold text-sm px-5 py-2 rounded-xl hover:bg-purple-50 transition-colors duration-150">
+                                    <Link href={`/ideas/${idea._id}`} className="border border-[#7C3AED] text-[#7C3AED] w-full font-semibold text-sm px-5 py-2 rounded-xl hover:bg-purple-50 transition-colors duration-150">
                                         View Details
-                                    </button>
+                                    </Link>
 
                                 </div>
                             </div>

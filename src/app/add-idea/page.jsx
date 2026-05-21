@@ -1,10 +1,12 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const IdeaFormDesign = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  const router =useRouter();
 
   const submitdata = async (e) => {
     e.preventDefault();
@@ -22,13 +24,14 @@ const IdeaFormDesign = () => {
       userEmail: user?.email,
     };
 
-    await fetch("http://localhost:5000/allidea", {
+    await fetch(`${process.env.NEXT_PUBLIC_FETCH_DATA_URL}/allidea`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
+    router.push('/ideas')
   };
 
   return (
@@ -204,7 +207,7 @@ const IdeaFormDesign = () => {
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3.5 px-6 rounded-xl transition-all shadow-sm"
+              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3.5 px-6 rounded-xl transition-all shadow-sm hover:cursor-pointer"
             >
               Submit Idea
             </button>

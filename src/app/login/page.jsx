@@ -11,49 +11,62 @@ import {
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { Icon } from "@iconify/react";
-import { useRouter } from "next/navigation";
+
+import { useRouter, useSearchParams } from "next/navigation"; 
 import toast from "react-hot-toast";
 
 const LogInPage = () => {
-        const router = useRouter();
+    const router = useRouter();
+    
+   
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
+
     const onsubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const result = Object.fromEntries(formData.entries());
         console.log(result);
+        
         const { data, error } = await authClient.signIn.email({
-            email: result.email, // required
-            password: result.password, // required
-
-            callbackURL: "/",
+            email: result.email, 
+            password: result.password, 
+            callbackURL: callbackUrl, 
         });
         
-         if (data) {
-            toast.success("Signup successful!");
-            router.push("/");
+        if (data) {
+            toast.success("Login successful!");
+            router.push(callbackUrl); 
+            router.refresh();
         }
         if (error) {
             toast.error(error.message);
         }
     };
+
     const handleGoogleSignup = async () => {
         try {
-            const { data, error } = await authClient.signIn.social({ provider: "google" });
+            
+            const { data, error } = await authClient.signIn.social({ 
+                provider: "google",
+                callbackURL: callbackUrl 
+            });
+            
             if (error) {
-                alert(error.message);
+                toast.error(error.message); 
             }
-            // data handling (redirect may be handled by auth flow)
         } catch (err) {
             console.error(err);
         }
     };
+
     return (
-        <div className='min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10'>
+        <div className='min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10 dark:bg-gray-950 transition-colors'>
             <Form
-                className="w-full max-w-md flex-col gap-5  rounded-3xl border bg-white p-6 shadow-lg"
+                className="w-full max-w-md flex-col gap-5 rounded-3xl border bg-white p-6 shadow-lg dark:bg-gray-900 dark:border-gray-800"
                 onSubmit={onsubmit}
             >
-                <h2 className="text-lg font-bold text-center">Log In</h2>
+                <h2 className="text-lg font-bold text-center dark:text-white">Log In</h2>
                 <TextField
                     isRequired
                     name="email"
@@ -65,10 +78,11 @@ const LogInPage = () => {
                         return null;
                     }}
                 >
-                    <Label>Email</Label>
-                    <Input placeholder="john@example.com" />
+                    <Label className="dark:text-gray-300">Email</Label>
+                    <Input placeholder="john@example.com" className="dark:bg-gray-800 dark:text-white" />
                     <FieldError />
                 </TextField>
+                
                 <TextField
                     isRequired
                     minLength={8}
@@ -87,19 +101,21 @@ const LogInPage = () => {
                         return null;
                     }}
                 >
-                    <Label>Password</Label>
-                    <Input placeholder="Enter your password" />
-                    
+                    <Label className="dark:text-gray-300">Password</Label>
+                    <Input placeholder="Enter your password" className="dark:bg-gray-800 dark:text-white" />
                     <FieldError />
                 </TextField>
+
                 <div className="flex gap-2">
-                    <Button className="w-full rounded-md" type="submit">
+                    <Button className="w-full rounded-md bg-indigo-600 hover:bg-indigo-700 text-white" type="submit">
                         LogIn
                     </Button>
                 </div>
-                <h2 className="text-center fint-bold">OR </h2>
+                
+                <h2 className="text-center font-bold text-gray-400">OR</h2>
+                
                 <div>
-                    <Button onClick={handleGoogleSignup} className="w-full" variant="tertiary">
+                    <Button onClick={handleGoogleSignup} className="w-full dark:border-gray-700 dark:text-gray-300" variant="tertiary">
                         <Icon icon="devicon:google" />
                         Sign in with Google
                     </Button>

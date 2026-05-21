@@ -18,33 +18,33 @@ export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const pathname = usePathname();
 
- 
+
   const router = useRouter();
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  const handleLogOut =  async() => {
+  const handleLogOut = async () => {
     await authClient.signOut({
-  fetchOptions: {
-    onSuccess: () => {
-       toast.success("Log Out successfully!");
-      router.push("/login"); 
-    },
-  },
-});
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Log Out successfully!");
+          router.push("/login");
+        },
+      },
+    });
   }
   const navItems = [
-  { label: 'Home', icon: Home, href: '/' },
-  { label: 'Ideas', icon: Lightbulb, href: '/ideas' },
-];
+    { label: 'Home', icon: Home, href: '/' },
+    { label: 'Ideas', icon: Lightbulb, href: '/ideas' },
+  ];
 
-if (user) {
-  navItems.push(
-    { label: 'Add Idea', icon: PlusCircle, href: '/add-idea' },
-    { label: 'My Ideas', icon: Lock, href: '/my-ideas' },
-    { label: 'My Interactions', icon: Users, href: '/interactions' }
-  );
-}
+  if (user) {
+    navItems.push(
+      { label: 'Add Idea', icon: PlusCircle, href: '/add-idea' },
+      { label: 'My Ideas', icon: Lock, href: '/my-ideas' },
+      { label: 'My Interactions', icon: Users, href: '/interactions' }
+    );
+  }
 
   return (
     <nav className="relative flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 shadow-sm sm:px-6 lg:px-8 dark:bg-gray-900 dark:border-gray-800">
@@ -106,13 +106,18 @@ if (user) {
       </ul>
 
       <div className="flex items-center space-x-2 md:space-x-4">
+        
         {/* Theme Toggle */}
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700 flex items-center space-x-1 transition"
+          className="p-2 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 transition-all active:scale-95 flex items-center justify-center"
+          title="Toggle Theme"
         >
-          {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full hidden sm:block"></div>
+          {theme === "dark" ? (
+            <Sun className="w-5 h-5 text-amber-500" />
+          ) : (
+            <Moon className="w-5 h-5 text-indigo-600" />
+          )}
         </button>
 
         {
@@ -122,7 +127,7 @@ if (user) {
                 onClick={() => { setIsProfileOpen(!isProfileOpen); setIsMenuOpen(false); }}
                 className="flex items-center space-x-1 border-l pl-2 md:pl-3 border-gray-200 focus:outline-none"
               >
-                <Image width={10} height={10}  src={user?.image || "https://i.pravatar.cc/150?img=12"} alt="Profile" className="w-8 h-8 rounded-full object-cover ring-2 ring-transparent hover:ring-purple-200 transition-all" />
+                <Image width={10} height={10} src={user?.image || "https://i.pravatar.cc/150?img=12"} alt="Profile" className="w-8 h-8 rounded-full object-cover ring-2 ring-transparent hover:ring-purple-200 transition-all" />
                 <span className="text-sm font-semibold text-gray-700 hidden lg:inline dark:text-gray-300">{user?.name}</span>
                 <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -136,33 +141,33 @@ if (user) {
                     <User className="w-4 h-4" /> <span>Profile</span>
                   </Link>
                   <hr className="border-gray-100 my-1" />
-                 <button
-  onClick={() => {
-    setIsProfileOpen(false);
-    handleLogOut();
-  }}
-  className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
->
-  <LogOut className="w-4 h-4" />
-  <span>Logout</span>
-</button>
+                  <button
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      handleLogOut();
+                    }}
+                    className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
                 </div>
               )}
             </div>
           </> :
             <>
-              <div  className="flex items-center gap-4 p-4 justify-center">
+              <div className="flex items-center gap-4 p-4 justify-center">
                 <Link href='login'>
-                <button className="px-6 py-2.5 bg-[#6366f1] hover:bg-[#4f46e5] text-white font-medium rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 tracking-wide active:scale-95">
-                  Login
-                </button>
+                  <button className="px-6 py-2.5 bg-[#6366f1] hover:bg-[#4f46e5] text-white font-medium rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 tracking-wide active:scale-95">
+                    Login
+                  </button>
                 </Link>
 
                 <Link href='signup'>
 
-                <button className="px-6 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-200 shadow-sm transition-all duration-200 tracking-wide active:scale-95">
-                  Register
-                </button>
+                  <button className="px-6 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-200 shadow-sm transition-all duration-200 tracking-wide active:scale-95">
+                    Register
+                  </button>
                 </Link>
               </div>
             </>

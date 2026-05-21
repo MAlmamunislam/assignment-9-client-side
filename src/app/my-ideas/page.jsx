@@ -17,7 +17,7 @@ const MyIdeas = () => {
         //  if user data fatch 
         if (user?.email) {
             fetch(`${process.env.NEXT_PUBLIC_FETCH_DATA_URL}/myidea?email=${user.email}`)
-                //   http://localhost:5000/myidea?email=uthsabghosh51@gmail.com
+          
                 .then((res) => res.json())
                 .then((data) => {
                     setMyIdeas(data);

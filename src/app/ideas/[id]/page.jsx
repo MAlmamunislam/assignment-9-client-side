@@ -131,9 +131,7 @@ const IdeaDetails = async ({ params }) => {
 
               {/* NEW COMMENT SECTION */}
               <div className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
-                <h2 className="text-xl font-bold text-slate-900">
-                  Comments (2)
-                </h2>
+               
 
                 {/* Input Box */}
             <CommentForm ideaId={id}></CommentForm>
