@@ -28,7 +28,7 @@ export default function DeleteIdeaModal({ ideaId, ideaTitle, onDeleteSuccess }) 
         toast.success(`"${ideaTitle}" has been deleted successfully!`);
         
       
-        router.refresh();
+        window.location.reload();
         if (onDeleteSuccess) {
           onDeleteSuccess(ideaId); 
           
